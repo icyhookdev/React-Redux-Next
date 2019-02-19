@@ -5,17 +5,13 @@ import { connect } from 'react-redux';
 
 import { addPost } from '../store/actions/posts';
 import List from '../components/List';
+import css from '../css/style.scss';
 
 class Default extends Page {
   state = {
     title: '',
     description: ''
   };
-
-  // static getInitialProps({ store, isServer, pathname, query }) {
-  //   store.dispatch({ type: 'FOO', payload: 'foo' });
-  //   return { custom: 'custom' };
-  // }
 
   onAddPostHandler = () => {
     const { title, description } = this.state;
@@ -32,24 +28,27 @@ class Default extends Page {
     console.log(this.props);
     return (
       <Layout>
-        <input
-          name="title"
-          value={title}
-          placeholder="Title"
-          onChange={this.onChangeHandler}
-        />
-        <input
-          name="description"
-          value={description}
-          placeholder="Description"
-          onChange={this.onChangeHandler}
-        />
-        <button onClick={this.onAddPostHandler}>Add Post</button>
-
-        <h1>Posts</h1>
-        <ul>
-          <List lists={this.props.posts} />
-        </ul>
+        <div className={css.container}>
+          <div className={css.input__group}>
+            <input
+              name="title"
+              value={title}
+              placeholder="Title"
+              onChange={this.onChangeHandler}
+            />
+            <input
+              name="description"
+              value={description}
+              placeholder="Description"
+              onChange={this.onChangeHandler}
+            />
+            <button onClick={this.onAddPostHandler}>Add Post</button>
+          </div>
+          <h1 className={css.h2}>Posts</h1>
+          <ul>
+            <List lists={this.props.posts} />
+          </ul>
+        </div>
       </Layout>
     );
   }

@@ -11,7 +11,7 @@ const makeStore = () => {
   return createStore(rootReducers, composeWithDevTools());
 };
 
-class App extends App {
+class MyApp extends App {
   render() {
     const { Component, pageProps, store } = this.props;
     return (
@@ -24,4 +24,4 @@ class App extends App {
   }
 }
 
-export default withRedux(makeStore)(App);
+export default withRedux(makeStore)(MyApp);
