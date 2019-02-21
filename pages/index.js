@@ -2,16 +2,28 @@ import React from 'react';
 import Page from '../components/page';
 import Layout from '../components/Layout';
 import { connect } from 'react-redux';
+import fetch from 'isomorphic-unfetch';
 
-import { addPost } from '../store/actions/posts';
+import { addPost, getPosts } from '../store/actions/posts';
 import List from '../components/List';
 import css from '../css/style.scss';
 
-class Default extends Page {
+class Index extends Page {
   state = {
     title: '',
     description: ''
   };
+
+  static getInitialProps = async ({ req }) => {
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+    const data = await res.json();
+    const posts = data.slice(1, 7);
+    return { data: posts };
+  };
+
+  componentDidMount() {
+    this.props.getPosts();
+  }
 
   onAddPostHandler = () => {
     const { title, description } = this.state;
@@ -58,5 +70,5 @@ const mapStateToProps = ({ posts }) => posts;
 
 export default connect(
   mapStateToProps,
-  { addPost }
-)(Default);
+  { addPost, getPosts }
+)(Index);
