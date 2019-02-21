@@ -7,6 +7,8 @@ import fetch from 'isomorphic-unfetch';
 import { addPost, getPosts } from '../store/actions/posts';
 import List from '../components/List';
 import css from '../css/style.scss';
+import { Wrapper } from '../css/components';
+// import
 
 class Index extends Page {
   state = {
@@ -36,11 +38,27 @@ class Index extends Page {
   };
 
   render() {
-    const { title, description } = this.state;
+    // const { title, description } = this.state;
     console.log(this.props);
     return (
       <Layout>
-        <div className={css.container}>
+        <Wrapper>
+          <List lists={this.props.posts} />
+        </Wrapper>
+      </Layout>
+    );
+  }
+}
+
+const mapStateToProps = ({ posts }) => posts;
+
+export default connect(
+  mapStateToProps,
+  { addPost, getPosts }
+)(Index);
+
+{
+  /* <div className={css.container}>
           <div className={css.input__group}>
             <input
               name="title"
@@ -57,18 +75,5 @@ class Index extends Page {
             <button onClick={this.onAddPostHandler}>Add Post</button>
           </div>
           <h1 className={css.h2}>Posts</h1>
-          <ul>
-            <List lists={this.props.posts} />
-          </ul>
-        </div>
-      </Layout>
-    );
-  }
+        </div> */
 }
-
-const mapStateToProps = ({ posts }) => posts;
-
-export default connect(
-  mapStateToProps,
-  { addPost, getPosts }
-)(Index);
