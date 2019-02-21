@@ -9,7 +9,7 @@ export default () => (
     <Link href="/">
       <a style={linkStyle}>Home</a>
     </Link>
-    <Link href="/posts">
+    <Link href="/post">
       <a style={linkStyle}>Posts</a>
     </Link>
   </nav>
