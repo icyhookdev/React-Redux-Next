@@ -1,4 +1,4 @@
-import { ADD_POST } from '../actions/types';
+import { ADD_POST, GET_POSTS, GET_POST, CLEAR_POST } from '../actions/types';
 
 const initialState = {
   posts: [],
@@ -15,9 +15,24 @@ export default (state = initialState, { type, payload }) => {
           {
             id: state.posts.length + 1,
             title: payload.title,
-            description: payload.description
+            body: payload.description
           }
         ]
+      };
+    case GET_POSTS:
+      return {
+        ...state,
+        posts: payload
+      };
+    case GET_POST:
+      return {
+        ...state,
+        currentPost: payload
+      };
+    case CLEAR_POST:
+      return {
+        ...state,
+        currentPost: null
       };
     default:
       return state;
