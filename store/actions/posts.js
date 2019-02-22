@@ -13,7 +13,7 @@ export const getPosts = () => async dispatch => {
     const res = await fetch('https://jsonplaceholder.typicode.com/posts');
     const data = await res.json();
 
-    dispatch({ type: GET_POSTS, payload: data.slice(1, 7) });
+    dispatch({ type: GET_POSTS, payload: data.slice(0, 6) });
   } catch (error) {
     console.log(error);
   }
