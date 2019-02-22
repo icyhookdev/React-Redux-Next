@@ -9,8 +9,8 @@ export default () => (
     <Link href="/">
       <a style={linkStyle}>Home</a>
     </Link>
-    <Link href="/post">
-      <a style={linkStyle}>Posts</a>
+    <Link href="/create">
+      <a style={linkStyle}>Create Post</a>
     </Link>
   </nav>
 );
