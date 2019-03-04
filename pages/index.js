@@ -1,79 +1,38 @@
 import React from 'react';
-import Page from '../components/page';
-import Layout from '../components/Layout';
 import { connect } from 'react-redux';
-import fetch from 'isomorphic-unfetch';
 
-import { addPost, getPosts } from '../store/actions/posts';
+import { getPosts } from '../store/actions/posts';
+import Layout from '../components/Layout';
 import List from '../components/List';
-import css from '../css/style.scss';
-import { Wrapper } from '../css/components';
-// import
+import { MainTitle, MainContent, Card, SubTitle } from '../styles/baseLayout';
 
-class Index extends Page {
-  state = {
-    title: '',
-    description: ''
-  };
-
-  static getInitialProps = async ({ req }) => {
-    const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-    const data = await res.json();
-    const posts = data.slice(1, 7);
-    return { data: posts };
-  };
-
+class index extends React.Component {
   componentDidMount() {
     this.props.getPosts();
   }
 
-  onAddPostHandler = () => {
-    const { title, description } = this.state;
-    this.props.addPost({ title, description });
-  };
-
-  onChangeHandler = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
   render() {
-    // const { title, description } = this.state;
-    console.log(this.props);
     return (
-      <Layout>
-        <Wrapper>
-          <List lists={this.props.posts} />
-        </Wrapper>
-      </Layout>
+      <div>
+        <Layout />
+
+        <MainContent>
+          <MainTitle>Welcome to Postify</MainTitle>
+          <Card>
+            <SubTitle>Top Postifies!</SubTitle>
+            <ul>
+              <List lists={this.props.minPosts} />
+            </ul>
+          </Card>
+        </MainContent>
+      </div>
     );
   }
 }
 
-const mapStateToProps = ({ posts }) => posts;
+const mapStateToProps = ({ posts }) => ({ minPosts: posts.posts });
 
 export default connect(
   mapStateToProps,
-  { addPost, getPosts }
-)(Index);
-
-{
-  /* <div className={css.container}>
-          <div className={css.input__group}>
-            <input
-              name="title"
-              value={title}
-              placeholder="Title"
-              onChange={this.onChangeHandler}
-            />
-            <input
-              name="description"
-              value={description}
-              placeholder="Description"
-              onChange={this.onChangeHandler}
-            />
-            <button onClick={this.onAddPostHandler}>Add Post</button>
-          </div>
-          <h1 className={css.h2}>Posts</h1>
-        </div> */
-}
+  { getPosts }
+)(index);

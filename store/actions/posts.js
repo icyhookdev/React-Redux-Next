@@ -1,5 +1,5 @@
 import { ADD_POST, GET_POSTS, GET_POST, CLEAR_POST } from './types';
-import fetch from 'isomorphic-unfetch';
+import post from '../../services/api/posts';
 
 export const addPost = post => ({
   type: ADD_POST,
@@ -10,8 +10,8 @@ export const clearCurrentPost = () => ({ type: CLEAR_POST });
 
 export const getPosts = () => async dispatch => {
   try {
-    const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-    const data = await res.json();
+    const res = await post.get('/posts');
+    const data = await res.data;
 
     dispatch({ type: GET_POSTS, payload: data.slice(1, 7) });
   } catch (error) {
@@ -22,8 +22,8 @@ export const getPosts = () => async dispatch => {
 export const getPost = id => async dispatch => {
   try {
     dispatch(clearCurrentPost());
-    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
-    const data = await res.json();
+    const res = await post(`/posts/${id}`);
+    const data = await res.data;
 
     dispatch({ type: GET_POST, payload: data });
   } catch (ex) {

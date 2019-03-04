@@ -1,13 +1,23 @@
-import Link from 'next/link';
-import { Card } from '../css/components';
+import { Link } from '../routes';
+
+import { SubTitle, FlexLi, LinkUX } from '../styles/baseLayout';
+
+const formatTitle = title => {
+  if (title.length > 19) {
+    return `${title.slice(0, 19)}...`;
+  }
+  return title;
+};
 
 export default ({ lists }) => {
   return lists.map(list => (
-    <Card key={list.id}>
-      <h2>{list.title}</h2>
-      <Link as={`/post/${list.id}`} href={`/post?id=${list.id}`}>
-        <a>View</a>
+    <FlexLi key={list.id}>
+      <SubTitle align="left" color="#26eda1">
+        {formatTitle(list.title)}
+      </SubTitle>
+      <Link route={`/post/${list.id}`}>
+        <LinkUX>View</LinkUX>
       </Link>
-    </Card>
+    </FlexLi>
   ));
 };

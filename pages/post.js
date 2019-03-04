@@ -1,55 +1,41 @@
+import React from 'react';
 import { withRouter } from 'next/router';
-import React, { Component } from 'react';
-
-import Layout from '../components/Layout';
-import { Title, Paragraph } from '../css/components';
-import global from '../css/style.scss';
 import { connect } from 'react-redux';
+
 import { getPost } from '../store/actions/posts';
+import Layout from '../components/Layout';
+import { MainTitle, TextBody } from '../styles/baseLayout';
 
-const setTextColor = id => {
-  const n = (+id * 3) / 2;
-
-  if (n <= 4) {
-    return 'rebeccapurple';
-  }
-
-  if (n > 4 && n <= 6) {
-    return 'palevioletred';
-  }
-
-  if (n > id) {
-    return '#FBAB7E';
-  }
-};
-
-const Content = ({ id, body, title }) => {
-  return (
-    <div className={global.container}>
-      <Title TextColor={setTextColor(id)}>{title}</Title>
-
-      <Paragraph TextColor={setTextColor(id)}>{body}</Paragraph>
-    </div>
-  );
-};
-
-class Post extends Component {
+class Post extends React.Component {
   componentDidMount() {
-    const id = this.props.router.query.id;
-    this.props.getPost(id);
+    const { router, getPost } = this.props;
+    const id = router.query.id;
+    getPost(id);
   }
+
+  displayPostHandler = () => {
+    const { post } = this.props;
+    return (
+      post && (
+        <div>
+          <MainTitle>{post.title}</MainTitle>
+          <TextBody>{post.body}</TextBody>
+        </div>
+      )
+    );
+  };
 
   render() {
-    const { currentPost } = this.props.posts;
     return (
-      <Layout>
-        <Content {...currentPost} />
-      </Layout>
+      <div>
+        <Layout />
+        {this.displayPostHandler()}
+      </div>
     );
   }
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = ({ posts }) => ({ post: posts.currentPost });
 
 export default connect(
   mapStateToProps,
